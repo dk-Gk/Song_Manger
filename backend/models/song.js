@@ -21,9 +21,14 @@ const songSchema = new Schema({
     songUrl: {
         type: String,
         required: true
-    }
-});
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
+    },
+},
+    { timestamps: true }
+);
 
-const Song = mongoose.model('Song', songSchema);
-
-module.exports = Song;
+module.exports = mongoose.model('Song', songSchema);
