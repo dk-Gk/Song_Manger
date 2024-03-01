@@ -1,0 +1,96 @@
+import styled from '@emotion/styled'
+import { useForm } from "react-hook-form";
+import TestHeader from './Header'
+import { Button, Container, ErrorDisplay, Form, Input, InputBox, Text, Wrapper } from '../styles/StyledComponents'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { ZodType, z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Song } from '../models/song';
+
+
+const Heading = styled.h1`
+    font-weight: 500;
+`
+
+// const Heading = styled.h1`
+//     font-weight: 500;
+// `
+
+export interface SongsInput {
+    title: string,
+    artist: string,
+    album?: string,
+    genre: string,
+};
+
+interface SongProps {
+editMode?: Song
+}
+
+const TestCreateUpdateSong = ({editMode}: SongProps) => {
+    const user = useAppSelector(state => state.auth.user);
+    const error = useAppSelector(state => state.auth.error);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const userSchema: ZodType<SongsInput> = z.object({
+        title: z.string().min(2, "title must have atleast 3 characters"),
+        artist: z.string().min(2,"artist must have atleast 3 characters"),
+        genre: z.string().min(5, "gener must have atleast 3 characters"),
+        album: z.string(),
+    })
+
+    const { register, handleSubmit, formState: { errors } } = useForm<SongsInput>({ resolver: zodResolver(userSchema),
+    defaultValues: {
+        title: editMode?.title || "",
+        artist: editMode?.artist || "",
+        genre: editMode?.genre || "",
+        album: editMode?.album || "",
+    } })
+
+    const onsubmit = (data: SongsInput) => {
+        console.log(data);
+        // if (editMode) {
+        //     update
+        // }
+        // dispatch(loginStart(data));
+        // if (user && !error) {
+        //     navigate('/dashboard');
+        // }
+        // else return;
+    }
+  return (
+    <>
+    {/* <TestHeader /> */}
+    <Container>
+        <Wrapper >
+            {error && <ErrorDisplay>{error}</ErrorDisplay>}
+            <Heading>{editMode ? "New Song" : "Update Song"}</Heading>
+            <Form onSubmit={handleSubmit(onsubmit)}>
+                <InputBox >
+                    <Input type="text" placeholder="Enter song title" {...register("title")} />
+                </InputBox>
+                {errors.title && <ErrorDisplay>{`* ${errors.title.message}`}</ErrorDisplay>}
+                <InputBox >
+                    <Input type="text" placeholder="Enter artist name" {...register("artist")} />
+                </InputBox>
+                {errors.artist && <ErrorDisplay>{`* ${errors.artist.message}`}</ErrorDisplay>}
+                <InputBox >
+                    <Input type="text" placeholder="Enter song genre" {...register("genre")} />
+                </InputBox>
+                {errors.genre && <ErrorDisplay>{`* ${errors.genre.message}`}</ErrorDisplay>}
+                <InputBox >
+                    <Input type="text" placeholder="Enter album name" {...register("album")} />
+                </InputBox>
+                <InputBox >
+                    <Button type="Submit" value="Create" />
+                </InputBox>
+            </Form>
+        </Wrapper>
+    </Container>
+</>
+  )
+}
+
+export default TestCreateUpdateSong
