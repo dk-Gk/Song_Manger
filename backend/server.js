@@ -1,13 +1,17 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const songRoutes = require('./routes/song');
 const authRoutes = require('./routes/auth');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+
 
 const app = express();
 const port = process.env.PORT
+
+app.use(cors());
 
 app.use(bodyParser.json());
 

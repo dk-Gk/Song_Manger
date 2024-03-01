@@ -13,10 +13,5 @@ router.put('/:songid', auth.protect, SongsController.updateSong);
 
 router.delete('/:songid', auth.protect, SongsController.deleteSong);
 
-// router.get('/', auth.protect, SongsController.getSongs);
-  
-
-
-// Other routes for creating, updating, and deleting songs...
 
 module.exports = router;

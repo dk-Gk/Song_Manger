@@ -12,7 +12,6 @@ const songSchema = new Schema({
     },
     album: {
         type: String,
-        required: true
     },
     genre: {
         type: String,

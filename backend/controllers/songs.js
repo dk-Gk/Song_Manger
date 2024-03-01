@@ -65,7 +65,6 @@ const deleteSong = async (req, res) => {
       return res.status(404).json({ message: 'Song not found' });
     }
 
-    // Check if the authenticated user owns the song
     if (song.user.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Not authorized' });
     }

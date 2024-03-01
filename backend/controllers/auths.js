@@ -40,13 +40,14 @@ const signUp = async(req, res) => {
 }
 
 const signin = async (req, res) => {
-    const { username, password } = req.body;
+
+    const { email, password } = req.body;
   
     try {
-        if (!username || !password) {
+        if (!email || !password) {
             return res.status(400).json({ message: 'Parameters missing' });
         }
-      const user = await userModel.findOne({ username }).select('+email +password');
+      const user = await userModel.findOne({ email }).select('+username +password +email');
 
       if (!user) {
         return res.status(400).json({ message: 'Invalid credentials' });
