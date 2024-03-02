@@ -11,6 +11,7 @@ const getSongs = async (req, res) => {
 
 const createSong = async (req, res) => {
     try {
+      console.log("from create", req.body)
       const { title, artist, album, genre, songUrl } = req.body;
       
       const newSong = new SongModel({

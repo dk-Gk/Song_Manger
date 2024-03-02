@@ -17,10 +17,6 @@ const songSchema = new Schema({
         type: String,
         required: true
     },
-    songUrl: {
-        type: String,
-        required: true
-    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
