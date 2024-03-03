@@ -20,7 +20,6 @@ const getAllSongs = async (req, res) => {
 
 const createSong = async (req, res) => {
     try {
-      console.log("from create", req.body)
       const { title, artist, album, genre } = req.body;
       
       const newSong = new SongModel({
@@ -67,7 +66,6 @@ const updateSong = async (req, res) => {
 
 const deleteSong = async (req, res) => {
   const songid = req.params.songid
-  console.log("user id = ",req.user.id);
   try {
     const song = await SongModel.findById(songid);
 
