@@ -52,7 +52,6 @@ const CreateUpdateSong = ({editMode, onclose}: SongProps) => {
             dispatch(updateSongStart(editMode))
         }
         else{
-            console.log('user = ',user);
             dispatch(createSongStart(data));
             navigate('/dashboard/songs')
         }

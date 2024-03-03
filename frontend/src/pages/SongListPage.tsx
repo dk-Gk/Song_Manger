@@ -107,8 +107,6 @@ const SongListPage: React.FC = () => {
   const updateSong = (song: Song) => {
     setEditMode(song)
     setIsModalOpen(!isModalOpen)
-    console.log("i am clicked");
-    
   }
   const filteredSongList = song.filter((song) => {
     const matchesSearch = song.title.toLowerCase().includes(searchQuery.toLowerCase());

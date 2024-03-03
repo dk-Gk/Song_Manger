@@ -69,7 +69,6 @@ const songSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       const updatedIndex = state.songs.findIndex(song => song._id === action.payload._id);
-      console.log('updatesong, updateIndex= ',updatedIndex);
       if (updatedIndex !== -1) {
         state.songs[updatedIndex] = action.payload;
       }

@@ -13,7 +13,6 @@ function* registerSaga(action: PayloadAction<Partial<User>>) {
     const user: User = yield call(requestRegister, action.payload);
     yield put(registerSuccess(user));
   } catch (error) {
-    console.log("the error", error)
     errorMessage = (error as ApiError).response.data.message || errorMessage;
     yield put(registerFailure(errorMessage));
   }
@@ -31,12 +30,9 @@ function* updateUserSaga(action: PayloadAction<Partial<User>>) {
 
 function* loginSaga(action: PayloadAction<Partial<User>>) {
   try {
-    console.log("Hi from loginSaga");
     const user: User = yield call(requestLogin, action.payload);
-    console.log("userdata = ", user)
     yield put(loginSuccess(user));
   } catch (error) {
-    console.log("the error", error)
     errorMessage = (error as ApiError).response.data.message || errorMessage;
     yield put(loginFailure(errorMessage));
   }

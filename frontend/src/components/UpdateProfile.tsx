@@ -40,7 +40,6 @@ const UpdateProfilePage = () => {
 
 
     const onsubmit = (data: User) => {
-        console.log(data);
         if (user) {
             user = { _id: user._id, ...data }
             dispatch(updateUserStart(user));

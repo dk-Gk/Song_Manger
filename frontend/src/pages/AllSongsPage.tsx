@@ -40,7 +40,6 @@ const AllSongsPage = () => {
 
   useEffect(() => {
     dispatch(getAllSongsStart());
-    console.log(loading);
   }, [Allsongs])
 
   const toogle = () => {
@@ -57,8 +56,6 @@ const AllSongsPage = () => {
   const updateSong = (song: Song) => {
     setEditMode(song)
     setIsModalOpen(!isModalOpen)
-    console.log("i am clicked");
-    
   }
 
   const filteredSongList = Allsongs.filter((song) => {

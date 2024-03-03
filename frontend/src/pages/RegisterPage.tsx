@@ -47,7 +47,6 @@ const RegisterPage = () => {
 
     const onsubmit = (data: User) => {
         dispatch(registerStart(data));
-        console.log('userReg = ', user)
         if (error) toast.error(error);
         if (user) toast.success("Successfully Registered");
     }

@@ -70,7 +70,6 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("user", user);
     if (user) {
       navigate('/dashboard');
     }

@@ -21,7 +21,6 @@ const StatisticsPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(getStatisticsStart());
-    console.log("loading2", loading);
   },[])
 
   return (
