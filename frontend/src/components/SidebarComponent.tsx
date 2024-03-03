@@ -1,6 +1,5 @@
-// components/Sidebar.tsx
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Button, NavigationItem, NavigationList, StyledNavLink } from '../styles/StyledComponents';
 import CreateSongModal from './CreateSongModal';
@@ -23,14 +22,12 @@ const Navigate = styled(StyledNavLink)`
   }
   &.active {
     color: #ffffff;
-    /* font-size: 20pt; Change font size when active */
     font-weight: bolder;
   }
 `
 const Item = styled(NavigationItem)`
     margin-top: 30px;
     margin-right: 50px;
-    /* border-bottom: 1px solid #fff4f4;; */
 `
 const UserSection = styled.div`
   position: absolute;

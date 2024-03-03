@@ -31,7 +31,7 @@ const LoginPage = () => {
         if (error) {
             toast.error(error);
         }
-    },[navigate, user])
+    },[navigate, user, error])
 
     const userSchema: ZodType<User> = z.object({
         email: z.string().email(),
@@ -42,12 +42,6 @@ const LoginPage = () => {
 
     const onsubmit = (data: User) => {
         dispatch(loginStart(data));
-        if (user && !error) {
-            navigate('/dashboard');
-        }
-        else {
-            toast.error(error)
-        }
     }
 
     return (

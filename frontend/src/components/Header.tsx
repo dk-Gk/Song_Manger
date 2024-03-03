@@ -1,16 +1,18 @@
-// components/Header.tsx
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { StyledNavLink } from '../styles/StyledComponents';
-import { boxShadow } from '../styles/commonStyle';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { logoutStart } from '../features/auth/authSlice';
+import logo from '../assets/mylogo2.png'
 
-const Button = styled.button<{ primary?: boolean }>`
-  background-color: ${props => (props.primary ? 'blue' : 'white')};
-  color: ${props => (props.primary ? 'white' : 'black')};
-  padding: 10px 20px;
+const Button = styled.button`
+  background: transparent;
+  background-color: #929496;
+  color: #111010;
+  font-size: 15pt;
+  font-weight: 500;
+  padding: 5px 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -29,7 +31,11 @@ const HeaderContainer = styled.div`
 `;
 
 const Logo = styled.div`
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  font-size: 30px;
   font-weight: bold;
 `;
 
@@ -39,39 +45,48 @@ const AuthLinks = styled.div`
 `;
 
 const AuthLink = styled(StyledNavLink)`
-  /* color: #c2b9b9; */
   margin-left: 20px;
   text-decoration: none;
   list-style: none;
 `;
+const UserStyle = styled.span`
+  font-size: 15pt;
+`;
+
+const LogoImg = styled.img`
+  width: 60px;
+  height: 60px;
+  background-color: #aaa39a;
+`
 
 const Header: React.FC = () => {
   const user = useAppSelector(state => state.auth.user);
-  const loading = useAppSelector(state => state.auth.isLoading);
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const logoutHandler = () => {
     dispatch(logoutStart());
-        navigate('/login');
+    navigate('/login');
   }
   return (
     <HeaderContainer>
-      <Logo>Songify</Logo>
+      <Logo>
+        <LogoImg src={logo}/>
+        <span>Songify</span>
+      </Logo>
       <AuthLinks>
         {user ? (
           <>
-          <span>{user.username}</span>
-          <Button onClick={logoutHandler} primary>Logout</Button>
+            <UserStyle>{user.username}</UserStyle>
+            <Button onClick={logoutHandler}>Logout</Button>
           </>
         ) : (
           <>
-          <AuthLink to="/login">Sign In</AuthLink>
-          <AuthLink to="/register">Sign Up</AuthLink>
+            <AuthLink to="/login">Sign In</AuthLink>
+            <AuthLink to="/register">Sign Up</AuthLink>
           </>
         )}
-       
+
         {/* <Button primary>Button</Button> */}
       </AuthLinks>
     </HeaderContainer>

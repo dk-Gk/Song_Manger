@@ -1,9 +1,10 @@
 // components/HomePage.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
-import { Header } from '../components';
+import Header from '../components/Header';
+
 
 const HomeContainer = styled.div`
      font-family: 'Roboto', sans-serif;
@@ -70,6 +71,12 @@ const HomePage: React.FC = () => {
   const user = useAppSelector(state => state.auth.user);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log("user", user);
+    if (user) {
+      navigate('/dashboard');
+    }
+  })
   const getStartHandler = () => {
     if (user) {
       navigate('/dashboard');

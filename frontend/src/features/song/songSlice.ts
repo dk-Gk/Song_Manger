@@ -31,6 +31,7 @@ const songSlice = createSlice({
     getSongsSuccess(state, action: PayloadAction<Song[]>) {
       state.isLoading = false;
       state.songs = action.payload;
+      state.error = null;
     },
     getSongsFailure(state, action: PayloadAction<string>) {
       state.isLoading = false;
@@ -43,6 +44,7 @@ const songSlice = createSlice({
     getAllSongsSuccess(state, action: PayloadAction<Song[]>) {
       state.isLoading = false;
       state.AllSongs = action.payload;
+      state.error = null;
     },
     getAllSongsFailure(state, action: PayloadAction<string>) {
       state.isLoading = false;
@@ -55,6 +57,7 @@ const songSlice = createSlice({
     createSongSuccess(state, action: PayloadAction<Song>) {
       state.isLoading = false;
       state.songs.push(action.payload);
+      state.error = null;
     },
     createSongFailure(state, action: PayloadAction<string>) {
       state.isLoading = false;
@@ -66,6 +69,7 @@ const songSlice = createSlice({
     },
     updateSongSuccess(state, action: PayloadAction<Song>) {
       state.isLoading = false;
+      state.error = null;
       const updatedIndex = state.songs.findIndex(song => song._id === action.payload._id);
       console.log('updatesong, updateIndex= ',updatedIndex);
       if (updatedIndex !== -1) {
@@ -83,6 +87,7 @@ const songSlice = createSlice({
     deleteSongSuccess(state, action: PayloadAction<string>) {
       state.isLoading = false;
       state.songs = state.songs.filter(song => song._id !== action.payload);
+      state.error = null;
     },
     deleteSongFailure(state, action: PayloadAction<string>) {
       state.isLoading = false;
@@ -95,6 +100,7 @@ const songSlice = createSlice({
     getStatisticsSuccess(state, action: PayloadAction<Statistics>) {
       state.isLoading = false;
       state.statistics = action.payload;
+      state.error = null;
     },
     getStatisticsFailure(state, action: PayloadAction<string>) {
       state.isLoading = false;

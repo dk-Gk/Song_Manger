@@ -28,8 +28,7 @@ function App() {
         <Route element={<PrivateRoute user={user} />}>
           <Route path='/dashboard/*' element={<DashboardPage />} />
         </Route>
-        {/* <Route path='/dashboard/*' element={<DashboardPage />} /> */}
-        <Route path='/errorPage' element={<ErrorPage />} />
+        <Route path='*' element={<ErrorPage />} />
       </Routes>
     </>
   );

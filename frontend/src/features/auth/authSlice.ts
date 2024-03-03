@@ -35,6 +35,7 @@ const authSlice = createSlice({
         registerSuccess(state, action: PayloadAction<User>) {
             state.isLoading = false;
             state.isAuthenticated = true;
+            state.error = null;
             state.user = action.payload;
         },
         registerFailure(state, action: PayloadAction<string>) {
@@ -49,6 +50,7 @@ const authSlice = createSlice({
         updateUserSuccess(state, action: PayloadAction<User>) {
             state.isLoading = false;
             state.user = {...action.payload};
+            state.error = null;
         },
         updateUserFailure(state, action: PayloadAction<string>) {
             state.isLoading = false;
@@ -62,8 +64,7 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isAuthenticated = true;
             state.user = action.payload;
-            localStorage.setItem('user', JSON.stringify(action.payload));
-            console.log("from lohin succes ", localStorage.getItem('user') );
+            state.error = null;
         },
         loginFailure(state, action: PayloadAction<string>) {
             state.isLoading = false;
@@ -77,7 +78,7 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isAuthenticated = false;
             state.user = null;
-            localStorage.removeItem('user');
+            state.error = null;
         },
         logoutFailure(state, action: PayloadAction<string>) {
             state.isLoading = false;

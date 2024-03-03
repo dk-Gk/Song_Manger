@@ -15,7 +15,7 @@ export const requestRegister = async (userData: Partial<User>) => {
 
 export const requestUpdateUser = async (userData: Partial<User>) => {
   try {
-    const response = await axios.put(`${BASE_URL}/users/${userData._id}`, userData);
+    const response = await axios.put(`${BASE_URL}/profile/${userData._id}`, userData);
     return response.data;
   } catch (error) {
     throw error

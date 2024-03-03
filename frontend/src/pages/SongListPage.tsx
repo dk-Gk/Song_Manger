@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { linkStyle } from '../styles/commonStyle';
 import CardComponent from '../components/CardComponent';
 import { Song } from '../models/song';
 import { FaPlus } from 'react-icons/fa';
@@ -13,7 +12,6 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getSongsStart } from '../features/song/songSlice';
 import {MoonLoader} from 'react-spinners';
 
-// Styled components
 const SongListContainer = styled.div`
   max-width: 800px;
   margin: 0 auto;
@@ -35,7 +33,6 @@ const AddIcon = styled(FaPlus)`
 background-color: #ada9a3;
 border: 1px solid gray;
 padding: 7px;
-/* margin: 0; */
 color: #302f2e;
 :hover {
   background-color: #696664;
@@ -55,26 +52,6 @@ const SongListWrapper = styled.div`
   justify-content: center;
   gap: 50px;
 `
-const SongItem = styled.div`
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
-
-const SongTitle = styled.h2`
-  color: #333;
-`;
-
-const SongDetail = styled.p`
-  color: #666;
-`;
-
-const ViewDetailsLink = styled(Link)`
-  ${linkStyle};
-`;
-
 export const SongButton = styled.button`
   background-color: #007bff;
   color: #fff;
@@ -86,7 +63,6 @@ export const SongButton = styled.button`
 
 export const FilterContainer = styled.div`
 display: flex;
-/* margin: 30px; */
 align-items: center;
 justify-content: center;
 gap: 30px;
@@ -101,11 +77,9 @@ border-radius: 5px;
 `;
 
 const SongListPage: React.FC = () => {
-  const user = useAppSelector(state => state.auth.user);
   const song = useAppSelector(state => state.song.songs);
   const loading = useAppSelector(state => state.auth.isLoading);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -148,7 +122,11 @@ const SongListPage: React.FC = () => {
   });
 
   const artists = Array.from(new Set(song.map((song) => song.artist)));
-  const albums = Array.from(new Set(song.map((song) => song.album)));
+  const albums = Array.from(new Set(
+    song
+        .filter(song => song.album !== '')
+        .map(song => song.album)
+));
   const genre = Array.from(new Set(song.map((song) => song.genre)));
 
 

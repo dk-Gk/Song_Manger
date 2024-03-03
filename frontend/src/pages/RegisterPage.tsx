@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { registerStart } from "../features/auth/authSlice";
-import { Header } from "../components";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { MoonLoader } from "react-spinners";
+import Header from "../components/Header";
 
 type User = {
     username: string;
@@ -25,13 +25,14 @@ const RegisterPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (error) toast.error(error);
         if (user) {
+            toast.success("Successfully Registered");
             navigate('/dashboard');
         }
-        if (error) {
-            toast.error(error);
-        }
-    },[navigate, user])
+
+    }, [error, user]);
+
     const userSchema: ZodType<User> = z.object({
         username: z.string().min(2, "name must have atleast 2 characters"),
         email: z.string().email(),
@@ -46,52 +47,48 @@ const RegisterPage = () => {
 
     const onsubmit = (data: User) => {
         dispatch(registerStart(data));
-        console.log('userReg = ',user)
-        if (user && !error) {
-            navigate('/dashboard');
-        }
-        else {
-            toast.error(error)
-        }
+        console.log('userReg = ', user)
+        if (error) toast.error(error);
+        if (user) toast.success("Successfully Registered");
     }
     return (
         <>
             {/* <Header /> */}
             {loading ? (
-                <Load><MoonLoader  color="#36d7b7" /></Load>
+                <Load><MoonLoader color="#36d7b7" /></Load>
             ) : (
-            <>
-            <Header />
-            <Container>
-                <Wrapper >
-                    <h2>Registration</h2>
-                    <Form onSubmit={handleSubmit(onsubmit)}>
-                        <InputBox>
-                            <Input type="text" placeholder="Enter your username" {...register("username")} />
-                        </InputBox>
-                        {errors.username && <ErrorDisplay>{`* ${errors.username.message}`}</ErrorDisplay>}
-                        <InputBox >
-                            <Input type="text" placeholder="Enter your email" {...register("email")} />
-                        </InputBox>
-                        {errors.email && <ErrorDisplay>{`* ${errors.email.message}`}</ErrorDisplay>}
-                        <InputBox >
-                            <Input type="password" placeholder="Create password" {...register("password")} />
-                        </InputBox>
-                        {errors.password && <ErrorDisplay>{`* ${errors.password.message}`}</ErrorDisplay>}
-                        <InputBox >
-                            <Input type="password" placeholder="Confirm password" {...register("confirmPassword")} />
-                        </InputBox>
-                        {errors.confirmPassword && <ErrorDisplay>{`* ${errors.confirmPassword.message}`}</ErrorDisplay>}
-                        <InputBox >
-                            <Button type="Submit" value="Register Now" />
-                        </InputBox>
-                        <Text>
-                            <h3>Already have an account? <NavLink to='/login'>Login now</NavLink></h3>
-                        </Text>
-                    </Form>
-                </Wrapper>
-            </Container>
-            </>)}
+                <>
+                    <Header />
+                    <Container>
+                        <Wrapper >
+                            <h2>Registration</h2>
+                            <Form onSubmit={handleSubmit(onsubmit)}>
+                                <InputBox>
+                                    <Input type="text" placeholder="Enter your username" {...register("username")} />
+                                </InputBox>
+                                {errors.username && <ErrorDisplay>{`* ${errors.username.message}`}</ErrorDisplay>}
+                                <InputBox >
+                                    <Input type="text" placeholder="Enter your email" {...register("email")} />
+                                </InputBox>
+                                {errors.email && <ErrorDisplay>{`* ${errors.email.message}`}</ErrorDisplay>}
+                                <InputBox >
+                                    <Input type="password" placeholder="Create password" {...register("password")} />
+                                </InputBox>
+                                {errors.password && <ErrorDisplay>{`* ${errors.password.message}`}</ErrorDisplay>}
+                                <InputBox >
+                                    <Input type="password" placeholder="Confirm password" {...register("confirmPassword")} />
+                                </InputBox>
+                                {errors.confirmPassword && <ErrorDisplay>{`* ${errors.confirmPassword.message}`}</ErrorDisplay>}
+                                <InputBox >
+                                    <Button type="Submit" value="Register Now" />
+                                </InputBox>
+                                <Text>
+                                    <h3>Already have an account? <NavLink to='/login'>Login now</NavLink></h3>
+                                </Text>
+                            </Form>
+                        </Wrapper>
+                    </Container>
+                </>)}
         </>
     )
 }

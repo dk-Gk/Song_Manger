@@ -1,5 +1,3 @@
-// components/PrivateRoute.tsx
-import React from 'react';
 import { Navigate, Outlet, Route, RouteProps, useNavigate } from 'react-router-dom';
 import { User } from '../models/user';
 
