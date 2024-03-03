@@ -1,16 +1,13 @@
-// components/SongListPage.tsx
-import React, { useEffect, useState } from 'react';
-import { Link, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import CardComponent from '../components/CardComponent';
-import { Song } from '../models/song';
+import React, { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { H1, Load, StyledInput } from '../styles/StyledComponents';
-import CreateSongModal from '../components/CreateSongModal';
-import { Input } from '../styles/StyledComponents';
+import { MoonLoader } from 'react-spinners';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
+import CardComponent from '../components/CardComponent';
+import CreateSongModal from '../components/CreateSongModal';
 import { getSongsStart } from '../features/song/songSlice';
-import {MoonLoader} from 'react-spinners';
+import { Song } from '../models/song';
+import { H1, Input, Load } from '../styles/StyledComponents';
 
 const SongListContainer = styled.div`
   max-width: 800px;

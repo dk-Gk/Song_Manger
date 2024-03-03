@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Song } from '../models/song';
-import UpdateProfile from './UpdateProfile';
-import TestCreateUpdateSong from './TestCreateUpdateSong';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteSongStart } from '../features/song/songSlice';
-import { useAppSelector } from '../app/hooks';
+import { Song } from '../models/song';
+import TestCreateUpdateSong from './CreateUpdateSong';
+import UpdateProfile from './UpdateProfile';
 
-// Modal component styles
 const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -59,27 +57,7 @@ justify-items: flex-start;
 justify-content: space-between;
 gap: 40px;
 `;
-// Form component styles
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
 
-const Input = styled.input`
-  margin-bottom: 10px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;
 const Button2 = styled.button`
   padding: 10px 20px;
   background-color: #545658;
@@ -89,7 +67,6 @@ const Button2 = styled.button`
   cursor: pointer;
 `;
 
-// Modal component
 const CreateSongModal: React.FC<{ onClose: () => void, isDelete: boolean, openType: string, editMode?: Song, songId?: string}> = ({ onClose , isDelete, openType, editMode, songId }) => {
   const dispatch = useDispatch();
     const [year, setYear] = useState('');
@@ -103,27 +80,6 @@ const CreateSongModal: React.FC<{ onClose: () => void, isDelete: boolean, openTy
       <ModalWrapper>
         <ModalContent>
           <CloseButton onClick={onClose}>X</CloseButton>
-          {/* <Form onSubmit={handleSubmit}>
-            <Input
-              type="text"
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder="Director"
-              value={director}
-              onChange={(e) => setDirector(e.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder="Year"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-            />
-            <Button type="submit">Create</Button>
-          </Form> */}
           {isDelete ? (
             <>
             <DeleteContainer>

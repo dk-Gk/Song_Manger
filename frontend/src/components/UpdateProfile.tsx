@@ -1,11 +1,11 @@
-import { Button, Container, ErrorDisplay, Form, Input, InputBox, Text, Wrapper } from "../styles/StyledComponents"
-import { NavLink, useNavigate } from 'react-router-dom';
-import { ZodType, z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
+import { ZodType, z } from "zod";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { registerStart, updateUserStart } from "../features/auth/authSlice";
-import { Header } from "../components";
+import { updateUserStart } from "../features/auth/authSlice";
+import { Button, Container, ErrorDisplay, Form, Input, InputBox, Wrapper } from "../styles/StyledComponents";
+import { toast } from "react-toastify";
 
 type User = {
     username: string;
@@ -51,11 +51,11 @@ const UpdateProfilePage = () => {
         }
         else return;
     }
+    if (error) toast.error(error);
     return (
         <>
             <Container>
                 <Wrapper >
-                    {error && <ErrorDisplay>{error}</ErrorDisplay>}
                     <h2>Update Profile</h2>
                     <Form onSubmit={handleSubmit(onsubmit)}>
                         <InputBox>

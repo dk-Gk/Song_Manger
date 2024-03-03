@@ -1,6 +1,3 @@
-import React from 'react'
-import { useAppSelector } from '../app/hooks'
-import { log } from 'console';
 import styled from '@emotion/styled';
 
 const ErroContainer = styled.div`

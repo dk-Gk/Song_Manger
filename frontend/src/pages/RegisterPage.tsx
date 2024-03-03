@@ -53,7 +53,6 @@ const RegisterPage = () => {
     }
     return (
         <>
-            {/* <Header /> */}
             {loading ? (
                 <Load><MoonLoader color="#36d7b7" /></Load>
             ) : (

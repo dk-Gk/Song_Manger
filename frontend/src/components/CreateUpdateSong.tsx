@@ -1,22 +1,17 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from "react-hook-form";
-import TestHeader from './Header'
-import { Button, Container, ErrorDisplay, Form, Input, InputBox, Text, Wrapper } from '../styles/StyledComponents'
-import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { ZodType, z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Song } from '../models/song';
+import { useNavigate } from 'react-router-dom';
+import { ZodType, z } from 'zod';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { createSongStart, updateSongStart } from '../features/song/songSlice';
+import { Song } from '../models/song';
+import { Button, Container, ErrorDisplay, Form, Input, InputBox, Wrapper } from '../styles/StyledComponents';
 
 
 const Heading = styled.h1`
     font-weight: 500;
 `
-
-// const Heading = styled.h1`
-//     font-weight: 500;
-// `
 
 export interface SongsInput {
     title: string,
@@ -28,10 +23,9 @@ export interface SongsInput {
 interface SongProps {
 editMode?: Song,
 onclose: () => void,
-// CreateUpdate: string,
 }
 
-const TestCreateUpdateSong = ({editMode, onclose}: SongProps) => {
+const CreateUpdateSong = ({editMode, onclose}: SongProps) => {
     const user = useAppSelector(state => state.auth.user);
     const error = useAppSelector(state => state.auth.error);
     const dispatch = useAppDispatch();
@@ -53,7 +47,6 @@ const TestCreateUpdateSong = ({editMode, onclose}: SongProps) => {
     } })
 
     const onsubmit = (data: SongsInput) => {
-        // console.log(data);
         if (editMode) {
             editMode = {_id: editMode._id, ...data}
             dispatch(updateSongStart(editMode))
@@ -63,13 +56,10 @@ const TestCreateUpdateSong = ({editMode, onclose}: SongProps) => {
             dispatch(createSongStart(data));
             navigate('/dashboard/songs')
         }
-        
         onclose();
-        // else return;
     }
   return (
     <>
-    {/* <TestHeader /> */}
     <Container>
         <Wrapper >
             {error && <ErrorDisplay>{error}</ErrorDisplay>}
@@ -100,4 +90,4 @@ const TestCreateUpdateSong = ({editMode, onclose}: SongProps) => {
   )
 }
 
-export default TestCreateUpdateSong
+export default CreateUpdateSong

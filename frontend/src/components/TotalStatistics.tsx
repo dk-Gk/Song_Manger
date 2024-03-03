@@ -1,5 +1,3 @@
-// components/TotalStatistics.tsx
-
 import styled from '@emotion/styled';
 import React from 'react';
 import { H2 } from '../styles/StyledComponents';

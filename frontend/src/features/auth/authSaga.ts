@@ -19,7 +19,6 @@ function* registerSaga(action: PayloadAction<Partial<User>>) {
   }
 }
 
-// Define saga for updating user information
 function* updateUserSaga(action: PayloadAction<Partial<User>>) {
   try {
     const updatedUser: User = yield call(requestUpdateUser, action.payload);

@@ -1,8 +1,6 @@
-// StyledComponents.tsx
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
 import { space, color, layout } from 'styled-system';
-import { boxShadow } from './commonStyle';
 
 
 export const Load = styled.div`
@@ -55,7 +53,6 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: 40px;
-    /* background: #ebe6e6; */
 `;
 
 export const Wrapper = styled.div`
@@ -174,7 +171,6 @@ export const StyledNavLink = styled(NavLink)`
   }
   &.active {
     color: #000000;
-    /* font-size: 20pt; Change font size when active */
     font-weight: bolder;
   }
 `;

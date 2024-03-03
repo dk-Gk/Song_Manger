@@ -1,12 +1,9 @@
 import styled from '@emotion/styled';
-import React from 'react'
-import { boxShadow, linkStyle } from '../styles/commonStyle';
+import { MdDelete } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import { Song } from '../models/song';
-import CreateSongModal from './CreateSongModal';
-import { MdDelete } from 'react-icons/md'
-import { StyledNavLink } from '../styles/StyledComponents';
 import { useAppSelector } from '../app/hooks';
+import { Song } from '../models/song';
+import { boxShadow, linkStyle } from '../styles/commonStyle';
 
 
 const CardContainer = styled.div`
@@ -34,26 +31,6 @@ const DeleteIcon = styled.div`
   }
 `
 
-const SongListContainer = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-`;
-
-const SongListWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`
-const SearchWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 11px;
-  margin-bottom: 30px;
-`
-
 const SongTitle = styled.h4`
   color: #333;
   margin: 0;
@@ -67,9 +44,6 @@ const SongDetail = styled.p`
   margin: 0;
 `;
 
-const ViewDetailsLink = styled(Link)`
-  ${linkStyle};
-`;
 const UpdateBtn = styled.button`
   font-size: 16px;
   color: #fff;

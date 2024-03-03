@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
-import Header from "../components/Header"
-import { Button, Container, ErrorDisplay, Form, Input, InputBox, Load, Text, Wrapper } from "../styles/StyledComponents"
-import { ZodType, z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { loginStart } from "../features/auth/authSlice";
-import TestHeader from "../components/Header";
-import { toast } from "react-toastify";
 import { MoonLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import { ZodType, z } from "zod";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import TestHeader from "../components/Header";
+import { loginStart } from "../features/auth/authSlice";
+import { Button, Container, ErrorDisplay, Form, Input, InputBox, Load, Text, Wrapper } from "../styles/StyledComponents";
 
 
 type User = {
@@ -46,7 +45,6 @@ const LoginPage = () => {
 
     return (
         <>
-            {/* <TestHeader /> */}
             {loading ? (
                 <Load><MoonLoader  color="#36d7b7" /></Load>
             ) : (
@@ -54,7 +52,6 @@ const LoginPage = () => {
             <TestHeader />
             <Container>
                 <Wrapper >
-                    {/* {error && <ErrorDisplay>{error}</ErrorDisplay>} */}
                     <h2>Login</h2>
                     <Form onSubmit={handleSubmit(onsubmit)}>
                         <InputBox >

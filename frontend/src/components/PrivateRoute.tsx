@@ -1,4 +1,4 @@
-import { Navigate, Outlet, Route, RouteProps, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { User } from '../models/user';
 
 interface PrivateRouteProps{

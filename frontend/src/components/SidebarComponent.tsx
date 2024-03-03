@@ -1,10 +1,9 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Button, NavigationItem, NavigationList, StyledNavLink } from '../styles/StyledComponents';
-import CreateSongModal from './CreateSongModal';
+import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { logoutStart } from '../features/auth/authSlice';
+import { NavigationItem, NavigationList, StyledNavLink } from '../styles/StyledComponents';
 
 const SidebarContainer = styled.div`
   width: 200px;
@@ -48,7 +47,6 @@ const USerBtn = styled.p`
   }
   &.active {
     color: #ffffff;
-    /* font-size: 20pt; Change font size when active */
     font-weight: bolder;
   }
 `

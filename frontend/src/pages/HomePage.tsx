@@ -1,10 +1,8 @@
-// components/HomePage.tsx
+import styled from '@emotion/styled';
 import React, { useEffect } from 'react';
-import styled from '@emotion/styled'
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import Header from '../components/Header';
-
 
 const HomeContainer = styled.div`
      font-family: 'Roboto', sans-serif;

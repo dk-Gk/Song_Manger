@@ -1,9 +1,9 @@
-import { call, put, takeEvery } from "redux-saga/effects";
-import { createSongFailure, createSongStart, createSongSuccess, deleteSongFailure, deleteSongStart, deleteSongSuccess, getAllSongsFailure, getAllSongsSuccess, getSongsFailure, getSongsStart, getSongsSuccess, getStatisticsStart, getStatisticsSuccess, updateSongFailure, updateSongStart, updateSongSuccess } from "./songSlice";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { Song, Statistics } from "../../models/song";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { requestCreateSong, requestDeleteSong, requestGetALLSongs, requestGetSongs, requestGetStatistics, requestUpdateSong } from "../../api/songApi";
-import { SongsInput } from "../../components/TestCreateUpdateSong";
+import { SongsInput } from "../../components/CreateUpdateSong";
+import { Song, Statistics } from "../../models/song";
+import { createSongFailure, createSongSuccess, deleteSongFailure, deleteSongSuccess, getAllSongsFailure, getAllSongsSuccess, getSongsFailure, getSongsSuccess, getStatisticsSuccess, updateSongFailure, updateSongSuccess } from "./songSlice";
 
 
 export interface ApiError {
@@ -37,7 +37,6 @@ function* fetchSongsSaga() {
     }
   }
   
-  // Define saga for creating a song
   function* createSongSaga(action: PayloadAction<Partial<Song>>) {
     try {
       const newSong: Song = yield call(requestCreateSong, action.payload);
@@ -48,7 +47,6 @@ function* fetchSongsSaga() {
     }
   }
   
-  // Define saga for updating a song
   function* updateSongSaga(action: PayloadAction<Partial<SongsInput>>) {
     try {
       const updatedSong: Song = yield call(requestUpdateSong, action.payload);
@@ -59,7 +57,6 @@ function* fetchSongsSaga() {
     }
   }
   
-  // Define saga for deleting a song
   function* deleteSongSaga(action: PayloadAction<string>) {
     try {
       yield call(requestDeleteSong, action.payload);
@@ -79,7 +76,7 @@ function* fetchSongsSaga() {
       yield put(getAllSongsFailure(errorMessage));
     }
   }
-  // Define saga watcher
+
   export function* watchSongs() {
     yield takeEvery('song/getSongsStart', fetchSongsSaga);
     yield takeEvery('song/getAllSongsStart', fetchAllSongsSaga);
@@ -88,31 +85,3 @@ function* fetchSongsSaga() {
     yield takeEvery('song/deleteSongStart', deleteSongSaga);
     yield takeEvery('song/getStatisticsStart', fetchStatisticsSaga);
   }
-
-
-
-// import { call, put, takeEvery } from 'redux-saga/effects'
-// import { getSongsFailure, getSongsSuccess } from './songSlice'
-// import { requestGetSong } from '../../api/songApi'
-// import { AxiosResponse } from 'axios';
-
-// interface ApiError {
-//     message: string;
-// }
-
-// function* songFetcher() {
-//     try {
-//         const response: AxiosResponse = yield call(requestGetSong);
-//         const songs = response.data; 
-//         yield put(getSongsSuccess(songs));
-//     } catch (error) {
-//         const errorMessage: string = (error as ApiError).message || 'An error occurred';
-//         yield put(getSongsFailure(errorMessage));
-//     }
-// }
-
-// function* songSaga() {
-//     yield takeEvery('song/getSongsFetch', songFetcher);
-// }
-
-// export default songSaga

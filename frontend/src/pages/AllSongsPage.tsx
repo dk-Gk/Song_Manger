@@ -1,14 +1,13 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import CardComponent from '../components/CardComponent';
+import CreateSongModal from '../components/CreateSongModal';
 import { getAllSongsStart } from '../features/song/songSlice';
 import { Song } from '../models/song';
 import { Input, Load } from '../styles/StyledComponents';
 import { FilterContainer, FilterSelect } from './SongListPage';
-import CreateSongModal from '../components/CreateSongModal';
 
 
 const Container = styled.div`

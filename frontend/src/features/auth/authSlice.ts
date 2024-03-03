@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../../models/user';
 
-
-// Define the initial state
 interface AuthState {
     user: User | null;
     isAuthenticated: boolean;
@@ -17,17 +15,11 @@ const initialState: AuthState = {
     isLoading: false,
     error: null,
 };
-//I can't add song to mongodb it gives me an error not authorized even though i have logged in also i set jwt in backend
 
-// Create a slice
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        // setCredentials(state, action) {
-        //     state.userInfo = action.payload;
-        //     localStorage.setItem('uerInfo', JSON.stringify(action.payload));
-        // },
         registerStart(state, action:PayloadAction<Partial<User>>) {
             state.isLoading = true;
             state.error = null;
@@ -102,48 +94,3 @@ export const {
     updateUserFailure, } = authSlice.actions;
 
 export default authSlice.reducer;
-
-
-
-
-
-// import { createSlice } from "@reduxjs/toolkit"
-
-// type Auth = {
-//     _id: string,
-//     name: string,
-//     email: string,
-// }
-
-// type authState = {
-//     userInfo: Auth[]
-// }
-
-// const initialState: authState = {
-//     userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : []
-// }
-
-// const authSlice = createSlice({
-//     name: 'auth',
-//     initialState,
-//     reducers: {
-//         getSongsFetch: (state) => {
-//             state.isLoading = true;
-//         },
-//         getSongsSuccess: (state, action) => {
-//             state.isLoading = false;
-//             state.songs = action.payload;
-//             state.error = '';
-//         },
-//         getSongsFailure: (state, action) => {
-//             state.isLoading = false;
-//             state.songs = [];
-//             state.error = "error occured";
-
-//         }
-//     }
-// })
-
-// export const { getSongsFetch, getSongsSuccess, getSongsFailure } = songSlice.actions
-
-// export default songSlice.reducer

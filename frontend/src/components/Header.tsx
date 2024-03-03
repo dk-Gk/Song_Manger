@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { StyledNavLink } from '../styles/StyledComponents';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { logoutStart } from '../features/auth/authSlice';
-import logo from '../assets/mylogo2.png'
+import logo from '../assets/mylogo.png'
 
 const Button = styled.button`
   background: transparent;
@@ -86,8 +86,6 @@ const Header: React.FC = () => {
             <AuthLink to="/register">Sign Up</AuthLink>
           </>
         )}
-
-        {/* <Button primary>Button</Button> */}
       </AuthLinks>
     </HeaderContainer>
   );
