@@ -9,6 +9,6 @@ router.post('/signin', AuthsController.signin);
 
 router.post('/logout', AuthsController.logout);
 
-router.route('/profile').get(auth.protect, AuthsController.getUserProfile).put(auth.protect, AuthsController.updateUserProfile)
+router.route('/profile/:id').get(auth.protect, AuthsController.getUserProfile).put(auth.protect, AuthsController.updateUserProfile)
 
 module.exports = router;

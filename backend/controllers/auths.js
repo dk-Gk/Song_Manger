@@ -31,12 +31,8 @@ const signUp = async(req, res) => {
             newUser.password = await bcrypt.hash(password, salt);
 
             const user = await newUser.save();
-            res.status(201).json({
-              _id: user._id,
-              name: user.name,
-              email: user.email,
-              token: generateToken(user._id)
-            });
+            generateToken(res, user._id)
+            res.status(201).json(user);
         } catch(error) {
             console.error(error);
             res.status(500).json({ message: 'Server Error' });
