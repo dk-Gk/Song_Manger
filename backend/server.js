@@ -12,7 +12,7 @@ const app = express();
 const port = process.env.PORT
 
 const corsOptions = {
-  origin: '*',
+  origin: 'https://songify-two.vercel.app',
   credentials: true,
   optionSuccessStatus: 200
 }
