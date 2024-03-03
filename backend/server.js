@@ -11,7 +11,12 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = process.env.PORT
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+  optionSuccessStatus: 200
+}
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
@@ -28,8 +33,6 @@ app.use(cookieParser());
 app.use('/api/users', authRoutes);
 app.use('/api/songs', songRoutes);
 
-// app.use(errorMiddleware.notFound);
-// app.use(errorMiddleware.errorHandler);
 app.use(cookieParser());
 
 app.listen(port, () => {
