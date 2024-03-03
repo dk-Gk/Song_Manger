@@ -9,7 +9,7 @@ interface AuthState {
     isLoading: boolean;
     error: string | null;
 }
-const storedUserInfo = localStorage.getItem('userInfo');
+const storedUserInfo = localStorage.getItem('user');
 
 const initialState: AuthState = {
     user: storedUserInfo !== null ? JSON.parse(storedUserInfo) : null,
@@ -17,6 +17,7 @@ const initialState: AuthState = {
     isLoading: false,
     error: null,
 };
+//I can't add song to mongodb it gives me an error not authorized even though i have logged in also i set jwt in backend
 
 // Create a slice
 const authSlice = createSlice({
@@ -41,13 +42,13 @@ const authSlice = createSlice({
             state.error = action.payload;
         },
 
-        updateUserStart(state) {
+        updateUserStart(state, action: PayloadAction<User>) {
             state.isLoading = true;
             state.error = null;
         },
         updateUserSuccess(state, action: PayloadAction<User>) {
             state.isLoading = false;
-            state.user = action.payload;
+            state.user = {...action.payload};
         },
         updateUserFailure(state, action: PayloadAction<string>) {
             state.isLoading = false;
@@ -61,14 +62,14 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isAuthenticated = true;
             state.user = action.payload;
-            localStorage.setItem('userInfo', JSON.stringify(action.payload));
-            console.log("from lohin succes ", localStorage.getItem('userInfo') );
+            localStorage.setItem('user', JSON.stringify(action.payload));
+            console.log("from lohin succes ", localStorage.getItem('user') );
         },
         loginFailure(state, action: PayloadAction<string>) {
             state.isLoading = false;
             state.error = action.payload;
         },
-        logout(state) {
+        logoutStart(state) {
             state.isLoading = true;
             state.error = null;
         },
@@ -76,7 +77,7 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isAuthenticated = false;
             state.user = null;
-            localStorage.removeItem('userInfo');
+            localStorage.removeItem('user');
         },
         logoutFailure(state, action: PayloadAction<string>) {
             state.isLoading = false;
@@ -89,7 +90,7 @@ export const {
     loginStart,
     loginSuccess,
     loginFailure,
-    logout,
+    logoutStart,
     logoutSuccess,
     logoutFailure,
     registerStart,

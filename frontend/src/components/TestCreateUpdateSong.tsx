@@ -7,6 +7,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { ZodType, z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Song } from '../models/song';
+import { createSongStart, updateSongStart } from '../features/song/songSlice';
 
 
 const Heading = styled.h1`
@@ -25,10 +26,12 @@ export interface SongsInput {
 };
 
 interface SongProps {
-editMode?: Song
+editMode?: Song,
+onclose: () => void,
+// CreateUpdate: string,
 }
 
-const TestCreateUpdateSong = ({editMode}: SongProps) => {
+const TestCreateUpdateSong = ({editMode, onclose}: SongProps) => {
     const user = useAppSelector(state => state.auth.user);
     const error = useAppSelector(state => state.auth.error);
     const dispatch = useAppDispatch();
@@ -37,7 +40,7 @@ const TestCreateUpdateSong = ({editMode}: SongProps) => {
     const userSchema: ZodType<SongsInput> = z.object({
         title: z.string().min(2, "title must have atleast 3 characters"),
         artist: z.string().min(2,"artist must have atleast 3 characters"),
-        genre: z.string().min(5, "gener must have atleast 3 characters"),
+        genre: z.string().min(5, "gener must have atleast 5 characters"),
         album: z.string(),
     })
 
@@ -50,14 +53,18 @@ const TestCreateUpdateSong = ({editMode}: SongProps) => {
     } })
 
     const onsubmit = (data: SongsInput) => {
-        console.log(data);
-        // if (editMode) {
-        //     update
-        // }
-        // dispatch(loginStart(data));
-        // if (user && !error) {
-        //     navigate('/dashboard');
-        // }
+        // console.log(data);
+        if (editMode) {
+            editMode = {_id: editMode._id, ...data}
+            dispatch(updateSongStart(editMode))
+        }
+        else{
+            console.log('user = ',user);
+            dispatch(createSongStart(data));
+            navigate('/dashboard/songs')
+        }
+        
+        onclose();
         // else return;
     }
   return (
@@ -66,7 +73,7 @@ const TestCreateUpdateSong = ({editMode}: SongProps) => {
     <Container>
         <Wrapper >
             {error && <ErrorDisplay>{error}</ErrorDisplay>}
-            <Heading>{editMode ? "New Song" : "Update Song"}</Heading>
+            <Heading>{editMode ? "Update Song" : "Create Song"}</Heading>
             <Form onSubmit={handleSubmit(onsubmit)}>
                 <InputBox >
                     <Input type="text" placeholder="Enter song title" {...register("title")} />
@@ -84,7 +91,7 @@ const TestCreateUpdateSong = ({editMode}: SongProps) => {
                     <Input type="text" placeholder="Enter album name" {...register("album")} />
                 </InputBox>
                 <InputBox >
-                    <Button type="Submit" value="Create" />
+                    <Button type="Submit" value= {editMode ? "Update" : "Create"} />
                 </InputBox>
             </Form>
         </Wrapper>

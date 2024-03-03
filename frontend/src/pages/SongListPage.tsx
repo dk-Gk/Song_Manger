@@ -1,14 +1,17 @@
 // components/SongListPage.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { linkStyle } from '../styles/commonStyle';
 import CardComponent from '../components/CardComponent';
 import { Song } from '../models/song';
 import { FaPlus } from 'react-icons/fa';
-import { StyledInput } from '../styles/StyledComponents';
+import { H1, Load, StyledInput } from '../styles/StyledComponents';
 import CreateSongModal from '../components/CreateSongModal';
 import { Input } from '../styles/StyledComponents';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { getSongsStart } from '../features/song/songSlice';
+import {MoonLoader} from 'react-spinners';
 
 // Styled components
 const SongListContainer = styled.div`
@@ -72,7 +75,7 @@ const ViewDetailsLink = styled(Link)`
   ${linkStyle};
 `;
 
-const AddSongButton = styled.button`
+export const SongButton = styled.button`
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -81,21 +84,43 @@ const AddSongButton = styled.button`
   cursor: pointer;
 `;
 
-const SongListPage: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filterSong, setFilterSong] = useState('');
-  const [isdeleteclicked, setIsDeleteClicked] = useState(false);
+export const FilterContainer = styled.div`
+display: flex;
+/* margin: 30px; */
+align-items: center;
+justify-content: center;
+gap: 30px;
+font-size: 10px;
 
+`;
+export const FilterSelect = styled.select`
+padding: 8px;
+margin-bottom: 20px;
+border: 1px solid #ccc;
+border-radius: 5px;
+`;
+
+const SongListPage: React.FC = () => {
+  const user = useAppSelector(state => state.auth.user);
+  const song = useAppSelector(state => state.song.songs);
+  const loading = useAppSelector(state => state.auth.isLoading);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // Dummy data for demonstration
-  const songs: Song[] = [
-    { _id: '1', title: 'Song 1', artist: 'Artist 1', album: 'Album 1', genre: 'Genre 1' },
-    { _id: '3', title: 'Song 2', artist: 'Artist 2', album: 'Album 2', genre: 'Genre 2' },
-    { _id: '4', title: 'Song 2', artist: 'Artist 2', album: 'Album 2', genre: 'Genre 2' },
-    { _id: '6', title: 'Song 2', artist: 'Artist 2', album: 'Album 2', genre: 'Genre 2' },
-    // Add more dummy data as needed
-  ];
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isdeleteclicked, setIsDeleteClicked] = useState(false);
+  const [songId, setSongId] = useState('');
+  const [openType, setOpenType] = useState('');
+  const [editMode, setEditMode] = useState<Song>();
+
+  const [selectedGenre, setSelectedGenre] = useState<string>('All');
+  const [selectedArtist, setSelectedArtist] = useState<string>('All');
+  const [selectedAlbum, setSelectedAlbum] = useState<string>('All');
+
+  useEffect(() => {
+    dispatch(getSongsStart());
+  },[song])
 
   const toogle = () => {
     setIsModalOpen(!isModalOpen);
@@ -103,38 +128,97 @@ const SongListPage: React.FC = () => {
   }
 
   const deleteSong = (song: Song) => {
+    setSongId(song._id);
     setIsModalOpen(!isModalOpen)
     setIsDeleteClicked(true);
   }
 
-  const viewDetail = () => {
+  const updateSong = (song: Song) => {
+    setEditMode(song)
+    setIsModalOpen(!isModalOpen)
     console.log("i am clicked");
-    // navigate('dashboard/detail')
+    
   }
+  const filteredSongList = song.filter((song) => {
+    const matchesSearch = song.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesGenre = selectedGenre === 'All' || song.genre === selectedGenre;
+    const matchesArtist = selectedArtist === 'All' || song.artist === selectedArtist;
+    const matchesAlbum = selectedAlbum === 'All' || song.album === selectedAlbum;
+    return matchesSearch && matchesGenre && matchesArtist && matchesAlbum;
+  });
+
+  const artists = Array.from(new Set(song.map((song) => song.artist)));
+  const albums = Array.from(new Set(song.map((song) => song.album)));
+  const genre = Array.from(new Set(song.map((song) => song.genre)));
+
 
   return (
-    <SongListContainer>
-      {songs.length === 0 ? (
+    <>
+    {loading ? 
+    (
+      <Load><MoonLoader  color="#36d7b7" /></Load>
+  ) : (
+  <>
+  <SongListContainer>
+      {song.length === 0 ? (
         <div>
           <p>No songs found. Why not add a song?</p>
-          <AddSongButton onClick={toogle}>Add Song</AddSongButton>
+          <SongButton onClick={toogle}>Add Song</SongButton>
         </div>
       ) : (
         <div>
-          <h1>Song List</h1>
+          <H1>Song List</H1>
           <SearchSongContainer>
             <AddIcon onClick={toogle} />
-            <SearchInput placeholder='search for song...' value={filterSong} onChange={(e) => setFilterSong(e.target.value)} />
+            <SearchInput placeholder='search for song...' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
           </SearchSongContainer>
+          <FilterContainer>
+
+            <FilterSelect
+              value={selectedGenre}
+              onChange={(e) => setSelectedGenre(e.target.value)}
+            >
+              <option value="All">All Genres</option>
+              {genre.map((genre) => (
+                <option key={genre} value={genre}>{genre}</option>
+              ))}
+            </FilterSelect>
+            <FilterSelect
+              value={selectedArtist}
+              onChange={(e) => setSelectedArtist(e.target.value)}
+            >
+              <option value="All">All Artists</option>
+              {artists.map((artist) => (
+                <option key={artist} value={artist}>{artist}</option>
+              ))}
+            </FilterSelect>
+            <FilterSelect
+              value={selectedAlbum}
+              onChange={(e) => setSelectedAlbum(e.target.value)}
+            >
+              <option value="All">All Albums</option>
+              {albums.map((album) => (
+                <option key={album} value={album}>{album}</option>
+              ))}
+            </FilterSelect>
+          </FilterContainer>
           <SongListWrapper>
-            {songs.map((song) => (
-              <CardComponent key={song._id} song={song} onDeleteSongClicked={deleteSong} onViewDetailClicked={viewDetail}/>
-            ))}
+            {filteredSongList.length === 0 ? (
+              <p>No songs found.</p>
+            ) : (
+              <>
+                {filteredSongList.map((song) => (
+                  <CardComponent key={song._id} song={song} onDeleteSongClicked={deleteSong} onUpdateClicked={updateSong} />
+                ))}
+              </>
+            )}
           </SongListWrapper>
         </div>
       )}
-      {isModalOpen && <CreateSongModal onClose={toogle} isDelete={isdeleteclicked} />}
+      {isModalOpen && <CreateSongModal onClose={toogle} isDelete={isdeleteclicked} openType={openType} songId={songId} editMode={editMode}/>}
     </SongListContainer>
+    </>)}
+    </>
   );
 };
 

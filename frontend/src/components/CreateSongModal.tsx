@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import TestCreateNewSong from './TestCreateUpdateSong';
+import { Song } from '../models/song';
+import UpdateProfile from './UpdateProfile';
+import TestCreateUpdateSong from './TestCreateUpdateSong';
+import { useDispatch } from 'react-redux';
+import { deleteSongStart } from '../features/song/songSlice';
+import { useAppSelector } from '../app/hooks';
 
 // Modal component styles
 const ModalWrapper = styled.div`
@@ -75,20 +80,25 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
 `;
+const Button2 = styled.button`
+  padding: 10px 20px;
+  background-color: #545658;
+  color: #ebdede;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+`;
 
 // Modal component
-const CreateSongModal: React.FC<{ onClose: () => void, isDelete: boolean}> = ({ onClose , isDelete }) => {
-    const [title, setTitle] = useState('');
-    const [director, setDirector] = useState('');
+const CreateSongModal: React.FC<{ onClose: () => void, isDelete: boolean, openType: string, editMode?: Song, songId?: string}> = ({ onClose , isDelete, openType, editMode, songId }) => {
+  const dispatch = useDispatch();
     const [year, setYear] = useState('');
-  
-    const handleSubmit = (event: React.FormEvent) => {
-      event.preventDefault();
-      // Handle form submission here, you can send the movie data to the server or any other actions
-      console.log({ title, director, year });
-      onClose(); // Close modal after submission
-    };
 
+    const handledelete = () => {
+      if (songId)
+        dispatch(deleteSongStart(songId));
+        onClose();
+    }
     return (
       <ModalWrapper>
         <ModalContent>
@@ -120,14 +130,16 @@ const CreateSongModal: React.FC<{ onClose: () => void, isDelete: boolean}> = ({ 
               <DeleteHeader>Delte Song</DeleteHeader>
               <DeleteMessage>Are you sure you want to delete this?</DeleteMessage>
               <DeleteButtonContainer>
-                <Button>Yes</Button>
-                <Button>No</Button>
+                <Button2 onClick={handledelete}>Confirm</Button2>
+                <Button2 onClick={onClose}>Cancel</Button2>
               </DeleteButtonContainer>
             </DeleteContainer>
             </>
           ) : (
             <>
-            <TestCreateNewSong />
+            {openType === "Detail" ? (
+              <UpdateProfile />
+            ) : (<TestCreateUpdateSong  editMode={editMode} onclose={onClose}/>)}
             </>
           )}
         </ModalContent>

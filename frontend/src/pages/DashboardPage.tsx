@@ -4,13 +4,14 @@ import { useAppSelector } from '../app/hooks';
 import styled from '@emotion/styled';
 import { StyledNavLink } from '../styles/StyledComponents';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import MySongPage from './MySongPage';
 import StatisticsPage from './StatisticsPage';
 import TestHeader from '../components/Header';
 import SongListPage from './SongListPage';
-import ViewDetailPage from './ViewDetailPage';
 import AllSongsPage from './AllSongsPage';
 import SidebarComponent from '../components/SidebarComponent';
+import UpdateProfilePage from '../components/UpdateProfile';
+import Header from '../components/Header';
+import { Song } from '../models/song';
 
 
 const Wrapper = styled.div`
@@ -62,8 +63,9 @@ const genreCounts = {
   // Add more genres as needed
 };
 
-const DashboardPage: React.FC = () => {
+const DashboardPage= () => {
   const user = useAppSelector(state => state.auth.user);
+  const song = useAppSelector(state => state.song.songs);
   const navigate = useNavigate();
 
 
@@ -76,13 +78,13 @@ const DashboardPage: React.FC = () => {
   //     navigate('/login');
   //   }
   // },[user])
-  
+
   return (
     <>
-    <TestHeader />
-    <Wrapper>
-      {/* <h2>Dashboard</h2> */}
-      {/* <SideNav>
+      <Header />
+      <Wrapper>
+        {/* <h2>Dashboard</h2> */}
+        {/* <SideNav>
         <Content>
         <StyledNavLink to={'/dashboard/mysongs'}>My Songs</StyledNavLink>
         </Content>
@@ -105,24 +107,25 @@ const DashboardPage: React.FC = () => {
         </Routes>
       </Main> */}
 
-<SidebarComponent />
-<Main>
-  
-{/* <TestSongList /> */}
-<Routes>
-<Route path='/songs' element={<SongListPage />}/>
-<Route path='/detail' element={<ViewDetailPage />}/>
-<Route path='/statistics' element={<StatisticsPage
-            totalSongs={totalSongs}
-            totalArtists={totalArtists}
-            totalAlbums={totalAlbums}
-            totalGenres={totalGenres}
-            genreCounts={genreCounts}
-          />}/>
-</Routes>
-</Main>
-    </Wrapper>
-      </>
+        <SidebarComponent />
+        <Main>
+
+          {/* <TestSongList /> */}
+          <Routes>
+            <Route path='/songs' element={<SongListPage />} />
+            <Route path='/allsongs' element={<AllSongsPage />} />
+            <Route path='/statistics' element={<StatisticsPage
+              totalSongs={totalSongs}
+              totalArtists={totalArtists}
+              totalAlbums={totalAlbums}
+              totalGenres={totalGenres}
+              genreCounts={genreCounts}
+            />} />
+            <Route path='/profile' element={<UpdateProfilePage />} />
+          </Routes>
+        </Main>
+      </Wrapper>
+    </>
   );
 };
 

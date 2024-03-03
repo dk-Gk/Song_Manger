@@ -5,6 +5,15 @@ import { space, color, layout } from 'styled-system';
 import { boxShadow } from './commonStyle';
 
 
+export const Load = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: #413e3b;
+  font-weight: bold;
+`
+
 export const NavigationList = styled.ul<{ column?: boolean }>`
   display: flex;
   flex-direction: ${props => (props.column ? 'column' : 'row')};

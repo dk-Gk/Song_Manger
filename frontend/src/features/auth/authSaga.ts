@@ -1,6 +1,6 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { requestLogin, requestLogout, requestRegister, requestUpdateUser, } from '../../api/authApi';
-import { loginStart, loginSuccess, loginFailure, logout, logoutSuccess, logoutFailure, registerSuccess, registerStart, registerFailure, updateUserStart, updateUserSuccess, updateUserFailure} from './authSlice';
+import { loginStart, loginSuccess, loginFailure, logoutSuccess, logoutFailure, registerSuccess, registerStart, registerFailure, updateUserStart, updateUserSuccess, updateUserFailure, logoutStart} from './authSlice';
 import { User } from '../../models/user';
 import { ApiError } from '../song/songSagas';
 import { PayloadAction } from '@reduxjs/toolkit';
@@ -13,6 +13,7 @@ function* registerSaga(action: PayloadAction<Partial<User>>) {
     const user: User = yield call(requestRegister, action.payload);
     yield put(registerSuccess(user));
   } catch (error) {
+    console.log("the error", error)
     errorMessage = (error as ApiError).response.data.message || errorMessage;
     yield put(registerFailure(errorMessage));
   }
@@ -55,8 +56,8 @@ function* logoutSaga() {
 export function* watchAuth() {
   yield all([
     takeLatest(loginStart.type, loginSaga),
-    takeLatest('auth/logout', logoutSaga),
+    takeLatest(logoutStart.type, logoutSaga),
     takeLatest(registerStart.type, registerSaga),
-    takeLatest('auth/updateUserStart', updateUserSaga),
+    takeLatest(updateUserStart.type, updateUserSaga),
   ]);
 }

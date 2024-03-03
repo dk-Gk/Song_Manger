@@ -3,10 +3,10 @@ import React from 'react'
 import { boxShadow, linkStyle } from '../styles/commonStyle';
 import { Link } from 'react-router-dom';
 import { Song } from '../models/song';
-import TestViewDetail from './ViewDetailPage';
 import CreateSongModal from './CreateSongModal';
 import { MdDelete } from 'react-icons/md'
 import { StyledNavLink } from '../styles/StyledComponents';
+import { useAppSelector } from '../app/hooks';
 
 
 const CardContainer = styled.div`
@@ -58,6 +58,9 @@ const SongTitle = styled.h4`
   color: #333;
   margin: 0;
 `;
+const SongInfo = styled.p`
+  color: #666;
+`;
 
 const SongDetail = styled.p`
   color: #887a7a;
@@ -67,7 +70,7 @@ const SongDetail = styled.p`
 const ViewDetailsLink = styled(Link)`
   ${linkStyle};
 `;
-const ViewDetailsBtn = styled.button`
+const UpdateBtn = styled.button`
   font-size: 16px;
   color: #fff;
   background-color: #007bff;
@@ -83,22 +86,36 @@ const ViewDetailsBtn = styled.button`
 
 interface SongsProps {
   song: Song,
-  onViewDetailClicked: () => void
+  onUpdateClicked?: (song: Song) => void
   onDeleteSongClicked?: (song: Song) => void,
 }
-const CardComponent = ({ song, onDeleteSongClicked, onViewDetailClicked }: SongsProps) => {
+
+const CardComponent = ({ song, onDeleteSongClicked, onUpdateClicked }: SongsProps) => {
+  const user = useAppSelector(state => state.auth.user);
+  let isEqual;
+  if (user) {
+    if (user._id === song.user)
+    isEqual = true;
+  }
   return (
     <CardContainer>
-      <DeleteIcon onClick={(e) => {
+      {isEqual && <DeleteIcon onClick={(e) => {
         if (onDeleteSongClicked)
-        onDeleteSongClicked(song);
+          onDeleteSongClicked(song);
         e.stopPropagation();
-        }}>
-          <MdDelete />
-        </DeleteIcon>
+      }}>
+        <MdDelete />
+      </DeleteIcon>}
       <SongTitle>{song.title}</SongTitle>
+      <SongInfo>Artist: {song?.artist}</SongInfo>
+      <SongInfo>Album: {song?.album}</SongInfo>
+      <SongInfo>Genre: {song?.genre}</SongInfo>
       <SongDetail>Createde on 12/23/14</SongDetail>
-      <ViewDetailsLink to={'/dashboard/detail'}>View Detail</ViewDetailsLink>
+      {isEqual && <UpdateBtn onClick={(e) => {
+        if (onUpdateClicked)
+          onUpdateClicked(song)
+        e.stopPropagation();
+      }} >Update</UpdateBtn>}
     </CardContainer>
   )
 }

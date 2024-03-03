@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { StyledNavLink } from '../styles/StyledComponents';
 import { boxShadow } from '../styles/commonStyle';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { logout } from '../features/auth/authSlice';
+import { logoutStart } from '../features/auth/authSlice';
 
 const Button = styled.button<{ primary?: boolean }>`
   background-color: ${props => (props.primary ? 'blue' : 'white')};
@@ -53,12 +53,12 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
 
   const logoutHandler = () => {
-    dispatch(logout());
-        navigate('/');
+    dispatch(logoutStart());
+        navigate('/login');
   }
   return (
     <HeaderContainer>
-      <Logo>Music App</Logo>
+      <Logo>Songify</Logo>
       <AuthLinks>
         {user ? (
           <>
